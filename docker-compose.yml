@@ -1,32 +1,33 @@
 services:
   frontend:
-    image: wutipong/mangaweb3-frontend:latest
-    restart: unless-stopped
-    environment: 
-      BACKEND_URL: http://backend:8972/
-      DEFAULT_SORT_FIELD:
-      DEFAULT_ORDER:
-    
-  backend:
-    image: wutipong/mangaweb3-backend:latest
+    image: wutipong/mangaweb4-frontend:latest
     restart: unless-stopped
     environment:
-      MANGAWEB_DB:
+      BACKEND_URL: backend:8972
+      DEFAULT_SORT_FIELD:
+      DEFAULT_ORDER:
+
+  backend:
+    image: wutipong/mangaweb4-backend:latest
+    restart: unless-stopped
+    environment:
+      MANGAWEB_DB_TYPE: sqlite3
+      MANGAWEB_DB: file:db.sqlite3?cache=shared&_pragma=foreign_keys(1)
       MANGAWEB_DATA_PATH: /data
       MANGAWEB_CACHE_PATH: /cache
     volumes:
-      - ${DATA_PATH}:/data:ro
+      - ${DATA_PATH-./data}:/data:ro
       - backend_cache:/cache
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    
+
   caddy:
     image: caddy:alpine
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
     ports:
-      - "${HTTP_PORT}:80"
+      - "${HTTP_PORT-8000}:80"
     volumes:
       - ./caddy:/etc/caddy
       - caddy_data:/data
