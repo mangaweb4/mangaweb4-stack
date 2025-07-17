@@ -2,19 +2,12 @@ services:
   frontend:
     image: wutipong/mangaweb4-frontend:latest
     restart: unless-stopped
-    environment:
-      BACKEND_URL: backend:8972
-      DEFAULT_SORT_FIELD:
-      DEFAULT_ORDER:
+    env_file: prod.env
 
   backend:
     image: wutipong/mangaweb4-backend:latest
     restart: unless-stopped
-    environment:
-      MANGAWEB_DB_TYPE: sqlite3
-      MANGAWEB_DB: file:db.sqlite3?cache=shared&_pragma=foreign_keys(1)
-      MANGAWEB_DATA_PATH: /data
-      MANGAWEB_CACHE_PATH: /cache
+    env_file: prod.env
     volumes:
       - ${DATA_PATH-./data}:/data:ro
       - backend_cache:/cache
