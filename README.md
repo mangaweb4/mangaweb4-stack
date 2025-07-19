@@ -1,19 +1,17 @@
-# Mangaweb3 Docker Compose Stack
+# MangaWeb 4 Docker Compose Stack
 
 ## Getting Started
 
-In order to get the stack running, two environment variables need to be set before running the stack. eg.
+By running `$ docker compose up -d`, the stack will be started with default paramters. You can customize further by updating `prod.env` for changing container-specific configuration like OIDC setup etc.
+
+For customizing the compose file itself, including the library path and the HTTP port, you can create a .env file like the following.
 
 ```env
 DATA_PATH="./data"
 HTTP_PORT=8080
 ```
 
-This can be done by make a copy the file `dev.env` and rename it to `.env` before running the containers.
-
 Alternatively you can specify the variable values via command line parameter directly.
-
-Use `docker compose up -d` command to starts the containers.
 
 ## Running on Portainer
 
